@@ -142,13 +142,10 @@ This code may be freely distributed under the MIT License
             //edges cases
             var newWidth = currentWidth + deltaWidth;
             var newHeight = currentHeight + deltaHeight;
-            // alert(newWidth);
-            // alert(this.canvas.clientWidth);
 
             // if( newWidth < this.canvas.clientWidth ) {
             //     return;
             // }
-            // // alert(newPosX);
             // if( newPosX > 0 ) { newPosX = 0; }
             // if( newPosX + newWidth < this.canvas.clientWidth ) { newPosX = this.canvas.clientWidth - newWidth;}
             
@@ -296,13 +293,10 @@ This code may be freely distributed under the MIT License
             window.cancelAnimationFrame(this.rafId);
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             // this.context.drawImage(this.imgTexture, left, top, width, height);
-            alert('crop');
             this.context.drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y,
                 $overlay.getBoundingClientRect().left, $overlay.getBoundingClientRect().top, width, height);
-            alert('crop after');
 
             var c =this.canvas.toDataURL();
-            alert(c);
         }
     };
 
