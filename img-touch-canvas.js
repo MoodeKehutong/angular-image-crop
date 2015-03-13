@@ -43,7 +43,8 @@ This code may be freely distributed under the MIT License
 
         this.init = false;
         this.checkRequestAnimationFrame();
-        requestAnimationFrame(this.animate.bind(this));
+        this.rafId = requestAnimationFrame(this.animate.bind(this));
+
 
         this.setEventListeners();
     };
@@ -88,7 +89,7 @@ This code may be freely distributed under the MIT License
                 this.scale.x * this.imgTexture.width, 
                 this.scale.y * this.imgTexture.height);
 
-            requestAnimationFrame(this.animate.bind(this));
+            this.rafId = requestAnimationFrame(this.animate.bind(this));
         },
 
 
@@ -275,6 +276,33 @@ This code may be freely distributed under the MIT License
                     clearTimeout(id);
                 };
             }
+        },
+        crop: function() {
+            var crop_canvas, 
+                $overlay = document.getElementById('overlay'),
+            left = $overlay.getBoundingClientRect().left - this.position.x,
+            top =  $overlay.getBoundingClientRect().top - this.position.y,
+            width = $overlay.getBoundingClientRect().width,
+            height = $overlay.getBoundingClientRect().height;
+
+            crop_canvas = document.createElement('canvas');
+            crop_canvas.width = width;
+            crop_canvas.height = height;
+            crop_canvas.getContext('2d').drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y, 0, 0, width, height);
+
+            // var c = crop_canvas.toDataURL("image/jpeg", 1.0);
+
+
+            window.cancelAnimationFrame(this.rafId);
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            // this.context.drawImage(this.imgTexture, left, top, width, height);
+            alert('crop');
+            this.context.drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y,
+                $overlay.getBoundingClientRect().left, $overlay.getBoundingClientRect().top, width, height);
+            alert('crop after');
+
+            var c =this.canvas.toDataURL();
+            alert(c);
         }
     };
 
