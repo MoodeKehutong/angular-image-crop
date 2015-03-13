@@ -4,7 +4,7 @@
   "description": "Angular Image Crop ==================",
   "main": "image-crop.js",
   "scripts": {
-    "start": "browser-sync start --server --files 'demo.html, *.js'",
+    "start": "browser-sync start --server --files 'demo.html, *.js' --startPath 'demo.html' --port 9000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
