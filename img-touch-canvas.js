@@ -75,8 +75,8 @@ This code may be freely distributed under the MIT License
                     }
                     // this.scale.x = scaleRatio;
                     // this.scale.y = scaleRatio;
-                    this.scale.x = 0.5;
-                    this.scale.y = 0.5;
+                    this.scale.x = 0.7;
+                    this.scale.y = 0.7;
                     this.init = true;
                 }
             }
@@ -281,7 +281,6 @@ This code may be freely distributed under the MIT License
             top =  $overlay.getBoundingClientRect().top - this.position.y,
             width = $overlay.getBoundingClientRect().width,
             height = $overlay.getBoundingClientRect().height;
-
             crop_canvas = document.createElement('canvas');
             crop_canvas.width = width;
             crop_canvas.height = height;
