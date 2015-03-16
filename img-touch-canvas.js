@@ -275,27 +275,42 @@ This code may be freely distributed under the MIT License
             }
         },
         crop: function() {
-            var crop_canvas, 
+            var cropCanvas, 
                 $overlay = document.getElementById('overlay'),
             left = $overlay.getBoundingClientRect().left - this.position.x,
             top =  $overlay.getBoundingClientRect().top - this.position.y,
             width = $overlay.getBoundingClientRect().width,
             height = $overlay.getBoundingClientRect().height;
-            // var c = crop_canvas.toDataURL("image/jpeg", 1.0);
-
-
+            // var c = cropCanvas.toDataURL("image/jpeg", 1.0);
             window.cancelAnimationFrame(this.rafId);
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            // this.context.drawImage(this.imgTexture, left, top, width, height);
-            this.context.drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y,
-                $overlay.getBoundingClientRect().left, $overlay.getBoundingClientRect().top, width, height);
+            this.context.drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, width / this.scale.x, height / this.scale.y, $overlay.getBoundingClientRect().left, 
+                $overlay.getBoundingClientRect().top, width, height);
 
-            crop_canvas = document.createElement('canvas');
-            crop_canvas.width = width;
-            crop_canvas.height = height;
-            crop_canvas.getContext('2d').drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y, 0, 0, width, height);
-            var c =this.canvas.toDataURL();
-            document.body.innerHTML= '<img src=' + crop_canvas.toDataURL() + '>';
+            cropCanvas = document.createElement('canvas');
+            cropCanvas.width = width;
+            cropCanvas.height = height;
+            // cropCanvas.getContext('2d').fillRect(0, 0, cropCanvas.width, cropCanvas.height);
+            // cropCanvas.getContext('2d').drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, width / this.scale.x, height / this.scale.y, 0, 0, width, height);
+            var cropedWidth = width, cropedHeight = height; 
+            if (left > 0 && (left + width > (this.imgTexture.width * this.scale.x)) ) {
+                cropedWidth = (this.imgTexture.width * this.scale.x) - left;
+            };
+            if (left < 0 && (- left  < width) ) {
+                cropedWidth = width - left;
+            };
+            if (top + height > (this.imgTexture.height * this.scale.y) ) {
+                cropedHeight = (this.imgTexture.height * this.scale.y) - top;
+            };
+            if (top < 0 && (- top < height) ) {
+                cropedHeight = height - top;
+            };
+            alert(cropedWidth);
+            alert(cropedHeight);
+            cropCanvas.getContext('2d').drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, 0, 0, cropedWidth, cropedHeight);
+            // var c =this.canvas.toDataURL();
+            document.body.innerHTML = '<img src=' + cropCanvas.toDataURL('image/png', 1.0) + '>';
+            // alert(c);
         }
     };
 
