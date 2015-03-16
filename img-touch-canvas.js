@@ -281,11 +281,6 @@ This code may be freely distributed under the MIT License
             top =  $overlay.getBoundingClientRect().top - this.position.y,
             width = $overlay.getBoundingClientRect().width,
             height = $overlay.getBoundingClientRect().height;
-            crop_canvas = document.createElement('canvas');
-            crop_canvas.width = width;
-            crop_canvas.height = height;
-            crop_canvas.getContext('2d').drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y, 0, 0, width, height);
-
             // var c = crop_canvas.toDataURL("image/jpeg", 1.0);
 
 
@@ -295,7 +290,12 @@ This code may be freely distributed under the MIT License
             this.context.drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y,
                 $overlay.getBoundingClientRect().left, $overlay.getBoundingClientRect().top, width, height);
 
+            crop_canvas = document.createElement('canvas');
+            crop_canvas.width = width;
+            crop_canvas.height = height;
+            crop_canvas.getContext('2d').drawImage(this.imgTexture, left, top, width / this.scale.x, height / this.scale.y, 0, 0, width, height);
             var c =this.canvas.toDataURL();
+            document.body.innerHTML= '<img src=' + crop_canvas.toDataURL() + '>';
         }
     };
 
