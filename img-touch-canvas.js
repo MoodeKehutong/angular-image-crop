@@ -277,7 +277,7 @@ This code may be freely distributed under the MIT License
         crop: function() {
             var cropCanvas, 
                 $overlay = document.getElementById('overlay'),
-            left = $overlay.getBoundingClientRect().left - this.position.x,
+            overllleft = $overlay.getBoundingClientRect().left - this.position.x,
             top =  $overlay.getBoundingClientRect().top - this.position.y,
             width = $overlay.getBoundingClientRect().width,
             height = $overlay.getBoundingClientRect().height;
@@ -290,24 +290,32 @@ This code may be freely distributed under the MIT License
             cropCanvas = document.createElement('canvas');
             cropCanvas.width = width;
             cropCanvas.height = height;
+            var overlayLeft = $overlay.getBoundingClientRect().left,
+            overlayTop =  $overlay.getBoundingClientRect().top,
+            overlayRight = $overlay.getBoundingClientRect().right,
+            overlayBottom = $overlay.getBoundingClientRect().bottom;
             // cropCanvas.getContext('2d').fillRect(0, 0, cropCanvas.width, cropCanvas.height);
             // cropCanvas.getContext('2d').drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, width / this.scale.x, height / this.scale.y, 0, 0, width, height);
-            var cropedWidth = width, cropedHeight = height; 
-            if (left > 0 && (left + width > (this.imgTexture.width * this.scale.x)) ) {
-                cropedWidth = (this.imgTexture.width * this.scale.x) - left;
-            };
-            if (left < 0 && (- left  < width) ) {
-                cropedWidth = width - left;
-            };
-            if (top + height > (this.imgTexture.height * this.scale.y) ) {
-                cropedHeight = (this.imgTexture.height * this.scale.y) - top;
-            };
-            if (top < 0 && (- top < height) ) {
-                cropedHeight = height - top;
-            };
-            alert(cropedWidth);
-            alert(cropedHeight);
-            cropCanvas.getContext('2d').drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, 0, 0, cropedWidth, cropedHeight);
+            // var cropedWidth = width, cropedHeight = height; 
+            var cropedX1 = this.position.x <= overlayLeft ? overlayLeft : this.position.x,
+                cropedX2 = this.position.x + this.imgTexture.width * this.scale.x <= overlayRight ? this.position.x + this.imgTexture.width * this.scale.x : overlayRight,
+                cropedY1 = this.position.y <= overlayTop ? overlayLeft : this.position.y,
+                cropedY2 = this.position.y + this.imgTexture.height * this.scale.y <= overlayBottom ?  this.position.y + this.imgTexture.height : overlayBottom;
+                
+            // if (left < 0 && (- left  < width) ) {
+            //     cropedWidth = width - left;
+            // };
+            // if (top + height > (this.imgTexture.height * this.scale.y) ) {
+            //     cropedHeight = (this.imgTexture.height * this.scale.y) - top;
+            // };
+            // if (top < 0 && (- top < height) ) {
+            //     cropedHeight = height - top;
+            // };
+            //
+            var cropedHeight = (cropedX2 - cropedX1),
+                cropedWidth = (cropedY2 - cropedY1) / this.scale.y;
+            if (true) {};
+            cropCanvas.getContext('2d').drawImage(this.imgTexture, cropedX1 / this.scale.x, cropedY1 / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, 0, 0, cropedWidth, cropedHeight);
             // var c =this.canvas.toDataURL();
             document.body.innerHTML = '<img src=' + cropCanvas.toDataURL('image/png', 1.0) + '>';
             // alert(c);
