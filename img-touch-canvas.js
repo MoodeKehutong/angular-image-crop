@@ -277,7 +277,7 @@ This code may be freely distributed under the MIT License
         crop: function() {
             var cropCanvas, 
                 $overlay = document.getElementById('overlay'),
-            overllleft = $overlay.getBoundingClientRect().left - this.position.x,
+            left = $overlay.getBoundingClientRect().left - this.position.x,
             top =  $overlay.getBoundingClientRect().top - this.position.y,
             width = $overlay.getBoundingClientRect().width,
             height = $overlay.getBoundingClientRect().height;
@@ -286,22 +286,24 @@ This code may be freely distributed under the MIT License
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.context.drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, width / this.scale.x, height / this.scale.y, $overlay.getBoundingClientRect().left, 
                 $overlay.getBoundingClientRect().top, width, height);
-
             cropCanvas = document.createElement('canvas');
             cropCanvas.width = width;
             cropCanvas.height = height;
             var overlayLeft = $overlay.getBoundingClientRect().left,
             overlayTop =  $overlay.getBoundingClientRect().top,
-            overlayRight = $overlay.getBoundingClientRect().right,
-            overlayBottom = $overlay.getBoundingClientRect().bottom;
+            overlayRight = $overlay.getBoundingClientRect().left + $overlay.getBoundingClientRect().width ,
+            overlayBottom = $overlay.getBoundingClientRect().top + $overlay.getBoundingClientRect().height;
             // cropCanvas.getContext('2d').fillRect(0, 0, cropCanvas.width, cropCanvas.height);
             // cropCanvas.getContext('2d').drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, width / this.scale.x, height / this.scale.y, 0, 0, width, height);
             // var cropedWidth = width, cropedHeight = height; 
             var cropedX1 = this.position.x <= overlayLeft ? overlayLeft : this.position.x,
                 cropedX2 = this.position.x + this.imgTexture.width * this.scale.x <= overlayRight ? this.position.x + this.imgTexture.width * this.scale.x : overlayRight,
-                cropedY1 = this.position.y <= overlayTop ? overlayLeft : this.position.y,
-                cropedY2 = this.position.y + this.imgTexture.height * this.scale.y <= overlayBottom ?  this.position.y + this.imgTexture.height : overlayBottom;
-                
+                cropedY1 = this.position.y <= overlayTop ? overlayTop : this.position.y,
+                cropedY2 = this.position.y + this.imgTexture.height * this.scale.y <= overlayBottom ?  this.position.y + this.imgTexture.height * this.scale.y : overlayBottom;
+            alert(cropedX1); 
+            alert(cropedY1); 
+            // alert(cropedX2); 
+            // alert(cropedY2); 
             // if (left < 0 && (- left  < width) ) {
             //     cropedWidth = width - left;
             // };
@@ -312,13 +314,13 @@ This code may be freely distributed under the MIT License
             //     cropedHeight = height - top;
             // };
             //
-            var cropedHeight = (cropedX2 - cropedX1),
-                cropedWidth = (cropedY2 - cropedY1) / this.scale.y;
-            if (true) {};
-            cropCanvas.getContext('2d').drawImage(this.imgTexture, cropedX1 / this.scale.x, cropedY1 / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, 0, 0, cropedWidth, cropedHeight);
+            var cropedWidth = (cropedX2 - cropedX1),
+                cropedHeight = (cropedY2 - cropedY1) ;
+                alert(cropedWidth);
+                alert(cropedHeight);
+            cropCanvas.getContext('2d').drawImage(this.imgTexture, cropedX1 / this.scale.x, cropedY1 / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, cropedX1, cropedY1, cropedWidth, cropedHeight);
             // var c =this.canvas.toDataURL();
             document.body.innerHTML = '<img src=' + cropCanvas.toDataURL('image/png', 1.0) + '>';
-            // alert(c);
         }
     };
 
