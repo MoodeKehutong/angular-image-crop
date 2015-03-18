@@ -1,14 +1,3 @@
-/*
-=================================
-img-touch-canvas - v0.1
-http://github.com/rombdn/img-touch-canvas
-
-(c) 2013 Romain BEAUDON
-This code may be freely distributed under the MIT License
-=================================
-*/
-
-
 (function() {
     var root = this; //global object
 
