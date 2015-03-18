@@ -55,28 +55,18 @@ This code may be freely distributed under the MIT License
             //set scale such as image cover all the canvas
             if(!this.init) {
                 if(this.imgTexture.width) {
-                    var scaleRatio = null;
-                    // var aspectratio = this.imgTexture.height / this.imgTexture.width;
-                    // if (this.imgTexture.width > this.canvas.clientWidth) {
-                    //     scaleRatio = this.canvas.clientWidth / this.imgTexture.width;
-                    // } else {
-                    //     scaleRatio = 1;
-                    // }
-
-                    // if (this.imgTexture.height > this.canvas.clientHeight) {
-                    //     scaleRatio = this.canvas.clientHeight / this.imgTexture.height;
-                    // };
-
-                    if(this.canvas.clientWidth > this.canvas.clientHeight) {
+                    var scaleRatio = 1;
+                    if (this.imgTexture.width > this.canvas.clientWidth) {
                         scaleRatio = this.canvas.clientWidth / this.imgTexture.width;
-                    }
-                    else {
+                    } 
+                    if (this.imgTexture.height * scaleRatio > this.canvas.clientHeight) {
                         scaleRatio = this.canvas.clientHeight / this.imgTexture.height;
                     }
-                    // this.scale.x = scaleRatio;
-                    // this.scale.y = scaleRatio;
-                    this.scale.x = 0.7;
-                    this.scale.y = 0.7;
+
+                    this.scale.x = scaleRatio;
+                    this.scale.y = scaleRatio;
+                    this.position.x = (this.canvas.clientWidth - (this.imgTexture.width * scaleRatio)) / 2;
+                    this.position.y = (this.canvas.clientHeight - (this.imgTexture.height * scaleRatio)) / 2;
                     this.init = true;
                 }
             }
@@ -116,8 +106,9 @@ This code may be freely distributed under the MIT License
 
             //new scale
             var currentScale = this.scale.x;
-            var newScale = this.scale.x + zoom/100;
-            
+            var newScale = this.scale.x + zoom/200;
+            document.getElementById('overlay_bottom').innerHTML = newScale;
+            if (newScale <= 0.1) return;
 
             //some helpers
             var deltaScale = newScale - currentScale;
