@@ -51,22 +51,25 @@ This code may be freely distributed under the MIT License
 
 
     ImgTouchCanvas.prototype = {
+        initImg: function() {
+            var scaleRatio = 1;
+            if (this.imgTexture.width > this.canvas.clientWidth) {
+                scaleRatio = this.canvas.clientWidth / this.imgTexture.width;
+            } 
+            if (this.imgTexture.height * scaleRatio > this.canvas.clientHeight) {
+                scaleRatio = this.canvas.clientHeight / this.imgTexture.height;
+            }
+
+            this.scale.x = scaleRatio;
+            this.scale.y = scaleRatio;
+            this.position.x = (this.canvas.clientWidth - (this.imgTexture.width * scaleRatio)) / 2;
+            this.position.y = (this.canvas.clientHeight - (this.imgTexture.height * scaleRatio)) / 2;
+        },
         animate: function() {
             //set scale such as image cover all the canvas
             if(!this.init) {
                 if(this.imgTexture.width) {
-                    var scaleRatio = 1;
-                    if (this.imgTexture.width > this.canvas.clientWidth) {
-                        scaleRatio = this.canvas.clientWidth / this.imgTexture.width;
-                    } 
-                    if (this.imgTexture.height * scaleRatio > this.canvas.clientHeight) {
-                        scaleRatio = this.canvas.clientHeight / this.imgTexture.height;
-                    }
-
-                    this.scale.x = scaleRatio;
-                    this.scale.y = scaleRatio;
-                    this.position.x = (this.canvas.clientWidth - (this.imgTexture.width * scaleRatio)) / 2;
-                    this.position.y = (this.canvas.clientHeight - (this.imgTexture.height * scaleRatio)) / 2;
+                    this.initImg();
                     this.init = true;
                 }
             }
@@ -292,7 +295,7 @@ This code may be freely distributed under the MIT License
             var cropedImgLeft =  this.position.x < overlayLeft ? overlayLeft - this.position.x : 0,
                 cropedImgTop =  this.position.y < overlayTop ? overlayTop - this.position.y : 0;
             cropCanvas.getContext('2d').drawImage(this.imgTexture, cropedImgLeft / this.scale.x, cropedImgTop / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, cropedX1 - overlayLeft, cropedY1 - overlayTop, cropedWidth, cropedHeight);
-            // var c =this.canvas.toDataURL();
+            var c = cropCanvas.toDataURL('image/png', 1.0);
             document.body.innerHTML = '<img src=' + cropCanvas.toDataURL('image/png', 1.0) + '>';
         }
     };
