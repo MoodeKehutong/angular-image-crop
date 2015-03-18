@@ -286,6 +286,15 @@ This code may be freely distributed under the MIT License
             overlayTop =  $overlay.getBoundingClientRect().top,
             overlayRight = $overlay.getBoundingClientRect().left + $overlay.getBoundingClientRect().width ,
             overlayBottom = $overlay.getBoundingClientRect().top + $overlay.getBoundingClientRect().height;
+            if (this.position.x + this.imgTexture.width * this.scale.x < overlayLeft ||
+                this.position.x > overlayRight ||
+                this.position.y + this.imgTexture.height * this.scale.y < overlayTop ||
+                this.position.y > overlayBottom) {
+                this.initImg();
+                this.animate();
+                this.crop();
+            };
+
             var cropedX1 = this.position.x <= overlayLeft ? overlayLeft : this.position.x,
                 cropedX2 = this.position.x + this.imgTexture.width * this.scale.x <= overlayRight ? this.position.x + this.imgTexture.width * this.scale.x : overlayRight,
                 cropedY1 = this.position.y <= overlayTop ? overlayTop : this.position.y,
