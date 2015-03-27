@@ -266,8 +266,7 @@
             height = $overlay.getBoundingClientRect().height;
             window.cancelAnimationFrame(this.rafId);
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.context.drawImage(this.imgTexture, left / this.scale.x, top / this.scale.y, width / this.scale.x, height / this.scale.y, $overlay.getBoundingClientRect().left, 
-                $overlay.getBoundingClientRect().top, width, height);
+            
             cropCanvas = document.createElement('canvas');
             cropCanvas.width = width;
             cropCanvas.height = height;
@@ -292,6 +291,8 @@
                 cropedHeight = (cropedY2 - cropedY1) ;
             var cropedImgLeft =  this.position.x < overlayLeft ? overlayLeft - this.position.x : 0,
                 cropedImgTop =  this.position.y < overlayTop ? overlayTop - this.position.y : 0;
+            this.context.drawImage(this.imgTexture, cropedImgLeft / this.scale.x, cropedImgTop / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, cropedX1, 
+                cropedY1, cropedWidth, cropedHeight);
             cropCanvas.getContext('2d').drawImage(this.imgTexture, cropedImgLeft / this.scale.x, cropedImgTop / this.scale.y, cropedWidth / this.scale.x, cropedHeight / this.scale.y, cropedX1 - overlayLeft, cropedY1 - overlayTop, cropedWidth, cropedHeight);
             var c = cropCanvas.toDataURL('image/png', 1.0);
             document.body.innerHTML = '<img src=' + cropCanvas.toDataURL('image/png', 1.0) + '>';
